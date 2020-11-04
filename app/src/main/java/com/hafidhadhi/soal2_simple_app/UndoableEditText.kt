@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.Log
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.AppCompatEditText
 
@@ -30,6 +29,13 @@ class UndoableEditText(ctx: Context, attrs: AttributeSet?) : AppCompatEditText(c
                 if (text.toString() == currentInput) prevInput else currentInput
             setText(newInput)
         }
+    }
+
+    override fun onEditorAction(actionCode: Int) {
+        super.onEditorAction(actionCode)
+        clearFocus()
+        imm.hideSoftInputFromWindow(windowToken, 0)
+        inputHistory.specialAdd(text.toString())
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {

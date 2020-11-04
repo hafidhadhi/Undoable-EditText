@@ -8,28 +8,28 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(),
     View.OnClickListener {
 
-    private val CURRENT_INPUT_EXTRA_KEY = ".EXTRA_CURRENT_INPUT"
+    private val REVERSED_INPUT_TEXT = ".EXTRA_REVERSED_INPUT_TEXT"
 
-    private var currentInput: String = ""
+    private var revInputTxt: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState != null) {
-            currentInput = savedInstanceState.getString(CURRENT_INPUT_EXTRA_KEY, "")
+            revInputTxt = savedInstanceState.getString(REVERSED_INPUT_TEXT, "")
         }
         initialProcess()
     }
 
     private fun initialProcess() {
-        label.text = getString(R.string.output, currentInput)
+        label.text = getString(R.string.output, revInputTxt)
         reverseBtn.setOnClickListener(this)
         undoRedoBtn.setOnClickListener(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(CURRENT_INPUT_EXTRA_KEY, input.text.toString())
+        outState.putString(REVERSED_INPUT_TEXT, revInputTxt)
     }
 
     override fun onClick(v: View) {
@@ -37,8 +37,9 @@ class MainActivity : AppCompatActivity(),
             reverseBtn -> {
                 label.apply {
                     val currentInput = input.text.toString()
-                    val revCurrentInput = getString(R.string.output, currentInput.reversed())
-                    text = revCurrentInput
+                    val revCurrentInput = currentInput.reversed()
+                    text = getString(R.string.output, revCurrentInput)
+                    revInputTxt = revCurrentInput
                 }
             }
             undoRedoBtn -> {
