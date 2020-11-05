@@ -24,10 +24,16 @@ class UndoableEditText(ctx: Context, attrs: AttributeSet?) : AppCompatEditText(c
     private var newText = ""
     private val runnableSetText = Runnable { setText(newText) }
 
+    /**
+     * must single-lined because multiline text view doesn't have ime action on soft keyboard
+     * which is used as condition to save current inputted text
+     * @see com.hafidhadhi.soal2_simple_app.UndoableEditText.onEditorAction
+     */
     init {
         isSingleLine = true
     }
 
+    /**Undo in first click, Redo in second click, Undo in third click, and so on*/
     fun undoRedo() {
         Log.d(this::class.java.simpleName, inputHistory.toList().toString())
         if (inputHistory.size > 1) {
@@ -40,6 +46,7 @@ class UndoableEditText(ctx: Context, attrs: AttributeSet?) : AppCompatEditText(c
         }
     }
 
+    /** Undo with single click, Redo with double click*/
     fun undoRedo2() {
         Log.d(this::class.java.simpleName, inputHistory.toList().toString() + pressedTime)
         if (inputHistory.size > 1) {
@@ -53,6 +60,9 @@ class UndoableEditText(ctx: Context, attrs: AttributeSet?) : AppCompatEditText(c
         }
     }
 
+    /**
+    this edit text only store inputted value when user click on ime action
+     */
     override fun onEditorAction(actionCode: Int) {
         super.onEditorAction(actionCode)
         clearFocus()
