@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(),
                 }
             }
             undoRedoBtn -> {
-                input.undoRedo()
+                input.undoRedo2()
             }
             else -> {
             }
